@@ -122,7 +122,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
       accounts[0],
       legacyAuctionRegistrarSimplifiedJSON,
       ens._address,
-      namehash('eth'),
+      namehash('vlx'),
       startTime
     )
   } catch (e) {
@@ -136,7 +136,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   const testRegistrarContract = testRegistrar.methods
   const legacyAuctionRegistrarContract = legacyAuctionRegistrar.methods
 
-  const tld = 'eth'
+  const tld = 'vlx'
   const tldHash = sha3(tld)
 
   /* Setup the root TLD */
@@ -150,7 +150,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     .setResolver(namehash(''), resolver._address)
     .send({ from: accounts[0] })
   await ensContract
-    .setResolver(namehash('eth'), resolver._address)
+    .setResolver(namehash('vlx'), resolver._address)
     .send({ from: accounts[0] })
   await ensContract
     .setResolver(namehash('test'), resolver._address)
@@ -159,7 +159,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     .setSubnodeOwner(ROOT_NODE, sha3('test'), testRegistrar._address)
     .send({ from: accounts[0] })
   await ensContract
-    .setSubnodeOwner(ROOT_NODE, sha3('eth'), legacyAuctionRegistrar._address)
+    .setSubnodeOwner(ROOT_NODE, sha3('vlx'), legacyAuctionRegistrar._address)
     .send({ from: accounts[0] })
 
   const legacynames = ['auctioned2', 'auctioned3']
@@ -214,7 +214,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   await ensContract
     .setSubnodeOwner(ROOT_NODE, tldHash, legacyAuctionRegistrar._address)
     .send({ from: accounts[0] })
-  nameLogger.record('eth', { label: 'eth' })
+  nameLogger.record('vlx', { label: 'vlx' })
 
   console.log('Successfully setup old hash registrar')
 
@@ -226,7 +226,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     oldBaseRegistrarJSON,
     ens._address,
     legacyAuctionRegistrar._address,
-    namehash('eth'),
+    namehash('vlx'),
     now + 365 * DAYS
   )
   console.log('Successfully setup base registrar')
@@ -258,7 +258,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   try {
     await resolverContract
       .setInterface(
-        namehash('eth'),
+        namehash('vlx'),
         legacyRegistrarInterfaceId,
         legacyAuctionRegistrar._address
       )
@@ -275,7 +275,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
 
   await resolverContract
     .setInterface(
-      namehash('eth'),
+      namehash('vlx'),
       permanentRegistrarInterfaceId,
       controller._address
     )
@@ -324,10 +324,10 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   nameLogger.record(`otherowner.eth`, { label: 'otherowner' })
   newnames.push('otherowner')
   /* Setup domain with a resolver and addr/content */
-  const aBitTooAwesome = 'abittooawesome.eth'
-  const aBitTooAwesome2 = 'abittooawesome2.eth'
-  const aBitTooAwesome3 = 'abittooawesome3.eth'
-  const otherOwner = 'otherowner.eth'
+  const aBitTooAwesome = 'abittooawesome.vlx'
+  const aBitTooAwesome2 = 'abittooawesome2.vlx'
+  const aBitTooAwesome3 = 'abittooawesome3.vlx'
+  const otherOwner = 'otherowner.vlx'
 
   async function addResolverAndRecords(name, resolverAddress, account = accounts[0]) {
     console.log('Setting up ', name, 'with old resolver and records')
@@ -349,7 +349,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   addResolverAndRecords(aBitTooAwesome3, resolver._address)
   addResolverAndRecords(otherOwner, resolver._address, accounts[1])
 
-  const contractdomain = namehash('contractdomain.eth')
+  const contractdomain = namehash('contractdomain.vlx')
 
   await ensContract
     .setResolver(contractdomain, resolver._address)
@@ -361,27 +361,27 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     .setOwner(contractdomain, testRegistrar._address)
     .send({ from: accounts[0] })
   await oldReverseRegistrarContract
-    .setName('abittooawesome.eth')
+    .setName('abittooawesome.vlx')
     .send({ from: accounts[0], gas: 1000000 })
 
-  /* Point the resolver.eth's resolver to the public resolver */
+  /* Point the resolver.vlx's resolver to the public resolver */
   console.log('Setting up resolvers')
   await ensContract
-    .setResolver(namehash('resolver.eth'), resolver._address)
+    .setResolver(namehash('resolver.vlx'), resolver._address)
     .send({
       from: accounts[0],
     })
   await ensContract
-    .setResolver(namehash('oldresolver.eth'), oldResolver._address)
+    .setResolver(namehash('oldresolver.vlx'), oldResolver._address)
     .send({ from: accounts[0] })
   /* Resolve the resolver.eth address to the address of the public resolver */
   await resolverContract
-    .setAddr(namehash('resolver.eth'), resolver._address)
+    .setAddr(namehash('resolver.vlx'), resolver._address)
     .send({ from: accounts[0] })
   /* Resolve the oldresolver.eth address to the address of the public resolver */
 
   await resolverContract
-    .setAddr(namehash('oldresolver.eth'), oldResolver._address)
+    .setAddr(namehash('oldresolver.vlx'), oldResolver._address)
     .send({
       from: accounts[0],
     })
@@ -390,16 +390,16 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   console.log('Setting up contenthash')
 
   await resolverContract
-    .setContenthash(namehash('resolver.eth'), contenthash)
+    .setContenthash(namehash('resolver.vlx'), contenthash)
     .send({ from: accounts[0], gas: 5000000 })
   await oldResolverContract
-    .setContent(namehash('oldresolver.eth'), content)
+    .setContent(namehash('oldresolver.vlx'), content)
     .send({ from: accounts[0] })
 
   /* Setup a reverse for account[0] to eth tld  */
 
   await oldReverseRegistrarContract
-    .setName('eth')
+    .setName('vlx')
     .send({ from: accounts[2], gas: 1000000 })
 
   await mine(web3)
@@ -412,84 +412,84 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   nameLogger.record(`${label}.eth`, { label: label })
 
   await ensContract
-    .setSubnodeOwner(namehash('testing.eth'), sha3('sub1'), accounts[0])
+    .setSubnodeOwner(namehash('testing.vlx'), sha3('sub1'), accounts[0])
     .send({
       from: accounts[0],
     })
 
   nameLogger.record(`sub1.testing.eth`, { label: 'sub1' })
   await ensContract
-    .setSubnodeOwner(namehash('testing.eth'), sha3('sub2'), accounts[0])
+    .setSubnodeOwner(namehash('testing.vlx'), sha3('sub2'), accounts[0])
     .send({
       from: accounts[0],
     })
   await ensContract
-    .setResolver(namehash('sub1.testing.eth'), resolver._address)
+    .setResolver(namehash('sub1.testing.vlx'), resolver._address)
     .send({ from: accounts[0] })
   await ensContract
-    .setResolver(namehash('sub2.testing.eth'), resolver._address)
+    .setResolver(namehash('sub2.testing.vlx'), resolver._address)
     .send({ from: accounts[0] })
   await resolverContract
-    .setAddr(namehash('sub2.testing.eth'), accounts[0])
+    .setAddr(namehash('sub2.testing.vlx'), accounts[0])
     .send({ from: accounts[0] })
 
   await resolverContract['setAddr(bytes32,uint256,bytes)'](
-    namehash('sub2.testing.eth'),
+    namehash('sub2.testing.vlx'),
     0, //BTC
     '0x76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac' //1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
   ).send({ from: accounts[0] })
 
   await resolverContract
-    .setContenthash(namehash('sub2.testing.eth'), contenthash)
+    .setContenthash(namehash('sub2.testing.vlx'), contenthash)
     .send({ gas: 5000000, from: accounts[0] })
 
   nameLogger.record(`sub2.testing.eth`, { label: 'sub2' })
   await ensContract
-    .setSubnodeOwner(namehash('sub2.testing.eth'), sha3('a1'), accounts[0])
+    .setSubnodeOwner(namehash('sub2.testing.vlx'), sha3('a1'), accounts[0])
     .send({
       from: accounts[0],
     })
   await ensContract
-    .setResolver(namehash('a1.sub2.testing.eth'), resolver._address)
+    .setResolver(namehash('a1.sub2.testing.vlx'), resolver._address)
     .send({ from: accounts[0] })
   await resolverContract
-    .setAddr(namehash('a1.sub2.testing.eth'), accounts[0])
+    .setAddr(namehash('a1.sub2.testing.vlx'), accounts[0])
     .send({ from: accounts[0] })
   nameLogger.record(`a1.sub2.testing.eth`, { label: 'a1' })
 
   await ensContract
-    .setSubnodeOwner(namehash('otherowner.eth'), sha3('sub1'), accounts[0])
+    .setSubnodeOwner(namehash('otherowner.vlx'), sha3('sub1'), accounts[0])
     .send({ from: accounts[1] })
   await ensContract
-    .setResolver(namehash('sub1.otherowner.eth'), resolver._address)
+    .setResolver(namehash('sub1.otherowner.vlx'), resolver._address)
     .send({ from: accounts[0] })
   await resolverContract
-    .setAddr(namehash('sub1.otherowner.eth'), accounts[0])
+    .setAddr(namehash('sub1.otherowner.vlx'), accounts[0])
     .send({ from: accounts[0] })
   nameLogger.record(`sub1.otherowner.eth`, { label: 'sub1' })
 
   await ensContract
-    .setSubnodeOwner(namehash('otherowner.eth'), sha3('sub2'), accounts[1])
+    .setSubnodeOwner(namehash('otherowner.vlx'), sha3('sub2'), accounts[1])
     .send({ from: accounts[1] })
   await ensContract
-    .setResolver(namehash('sub2.otherowner.eth'), resolver._address)
+    .setResolver(namehash('sub2.otherowner.vlx'), resolver._address)
     .send({ from: accounts[1] })
   await resolverContract
-    .setAddr(namehash('sub2.otherowner.eth'), accounts[1])
+    .setAddr(namehash('sub2.otherowner.vlx'), accounts[1])
     .send({ from: accounts[1] })
   nameLogger.record(`sub2.otherowner.eth`, { label: 'sub2' })
 
   await ensContract
-    .setSubnodeOwner(namehash('testing.eth'), sha3('sub4'), accounts[1])
+    .setSubnodeOwner(namehash('testing.vlx'), sha3('sub4'), accounts[1])
     .send({ from: accounts[0] })
   await ensContract
-    .setResolver(namehash('sub4.testing.eth'), resolver._address)
+    .setResolver(namehash('sub4.testing.vlx'), resolver._address)
     .send({ from: accounts[1] })
   await resolverContract
-    .setAddr(namehash('sub4.testing.eth'), accounts[0])
+    .setAddr(namehash('sub4.testing.vlx'), accounts[0])
     .send({ from: accounts[1] })
   await resolverContract['setAddr(bytes32,uint256,bytes)'](
-    namehash('sub4.testing.eth'),
+    namehash('sub4.testing.vlx'),
     0, //BTC
     '0x76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac' //1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
   ).send({ from: accounts[1] })
@@ -512,8 +512,8 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   )
   // This keeps failing hence commenteed out
   // await oldBaseRegistrarContract.approve(oldSubdomainRegistrar._address, sha3('ismoney')).send({from: accounts[0]})
-  // let ethOwner = await ensContract.owner(namehash('eth')).call()
-  // if(ethOwner !== oldBaseRegistrar._address) throw('base registrar is not the owner of eth')
+  // let ethOwner = await ensContract.owner(namehash('vlx')).call()
+  // if(ethOwner !== oldBaseRegistrar._address) throw('base registrar is not the owner of vlx')
   // console.log('*** before the call')
   // await oldSubdomainRegistrarContract.configureDomain('ismoney' , 0, 0).send({from: accounts[0]})
   // console.log('*** after the call')
@@ -534,7 +534,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     accounts[0],
     newBaseRegistrarJSON,
     newEns._address,
-    namehash('eth')
+    namehash('vlx')
   )
   const newBaseRegistrarContract = newBaseRegistrar.methods
   await newBaseRegistrarContract
@@ -625,10 +625,10 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     await deployDNSSEC(web3, accounts, newEns, newResolver)
   }
   await newEnsContract
-    .setSubnodeOwner(ROOT_NODE, sha3('eth'), accounts[0])
+    .setSubnodeOwner(ROOT_NODE, sha3('vlx'), accounts[0])
     .send({ from: accounts[0] })
   await newEnsContract
-    .setResolver(namehash('eth'), newResolver._address)
+    .setResolver(namehash('vlx'), newResolver._address)
     .send({ from: accounts[0], gas: 6000000 })
   await newResolverContract
     .setApprovalForAll(newController._address, true)
@@ -636,14 +636,14 @@ async function deployENS({ web3, accounts, dnssec = false }) {
 
   await newResolverContract
     .setInterface(
-      namehash('eth'),
+      namehash('vlx'),
       permanentRegistrarInterfaceId,
       newController._address
     )
     .send({ from: accounts[0] })
   await newResolverContract
     .setInterface(
-      namehash('eth'),
+      namehash('vlx'),
       permanentRegistrarWithConfigInterfaceId,
       newController._address
     )
@@ -653,7 +653,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   if(!dnssec){
     await newResolverContract
     .setInterface(
-      namehash('eth'),
+      namehash('vlx'),
       legacyRegistrarInterfaceId,
       legacyAuctionRegistrar._address
     )
@@ -662,7 +662,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
 
   await newResolverContract
     .setInterface(
-      namehash('eth'),
+      namehash('vlx'),
       bulkRenewalInterfaceId,
       bulkRenewal._address
     )
@@ -670,7 +670,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
 
   await newResolverContract
     .setInterface(
-      namehash('eth'),
+      namehash('vlx'),
       linearPriceOracleInterfaceId,
       linearPriceOracle._address
     )
@@ -678,9 +678,9 @@ async function deployENS({ web3, accounts, dnssec = false }) {
 
   //set notsoawesome to new resolver
   await newEnsContract
-    .setSubnodeOwner(ROOT_NODE, sha3('eth'), newBaseRegistrar._address)
+    .setSubnodeOwner(ROOT_NODE, sha3('vlx'), newBaseRegistrar._address)
     .send({ from: accounts[0] })
-  nameLogger.record('eth', { label: 'eth', migrated: true })
+  nameLogger.record('vlx', { label: 'vlx', migrated: true })
   newTestRegistrar = await deploy(
     web3,
     accounts[0],
@@ -701,7 +701,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     newResolver._address
   )
 
-  // Create the migration contract. Make it the owner of 'eth' on the old
+  // Create the migration contract. Make it the owner of 'vlx' on the old
   registrarMigration = await deploy(
     web3,
     accounts[0],
@@ -716,7 +716,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     .addController(registrarMigration._address)
     .send({ from: accounts[0] })
   await ensContract
-    .setSubnodeOwner(ROOT_NODE, sha3('eth'), registrarMigration._address)
+    .setSubnodeOwner(ROOT_NODE, sha3('vlx'), registrarMigration._address)
     .send({ from: accounts[0] })
 
   console.log('Migrating permanent registrar names')
@@ -783,7 +783,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
       .send({ from: accounts[0] })
   }
   await newEnsContract
-    .setResolver(namehash('resolver.eth'), newResolver._address)
+    .setResolver(namehash('resolver.vlx'), newResolver._address)
     .send({ from: accounts[0] }) 
 
   console.log(
@@ -791,27 +791,27 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     newResolver._address
   )
   await newResolverContract
-    .setAddr(namehash('resolver.eth'), newResolver._address)
+    .setAddr(namehash('resolver.vlx'), newResolver._address)
     .send({ from: accounts[0] })
 
   await newEnsContract
-    .setSubnodeOwner(namehash('testing.eth'), sha3('sub3'), accounts[0])
+    .setSubnodeOwner(namehash('testing.vlx'), sha3('sub3'), accounts[0])
     .send({ from: accounts[0] })
-  nameLogger.record('testing.eth', { label: 'sub3', migrated: true })
+  nameLogger.record('testing.vlx', { label: 'sub3', migrated: true })
 
-  await setNewResolver('notsoawesome.eth')
-  await addNewResolverAndRecords('abittooawesome.eth')
+  await setNewResolver('notsoawesome.vlx')
+  await addNewResolverAndRecords('abittooawesome.vlx')
   /* Setup some domains for subdomain testing */
-  console.log('Setting up subdomaindummy.eth')
+  console.log('Setting up subdomaindummy.vlx')
   await newEnsContract
     .setSubnodeOwner(
-      namehash('subdomaindummy.eth'),
+      namehash('subdomaindummy.vlx'),
       sha3('original'),
       accounts[0]
     )
     .send({ from: accounts[0] })
   // Change the controller from migration registrarMigration to controller
-  nameLogger.record('original.subdomaindummy.eth', {
+  nameLogger.record('original.subdomaindummy.vlx', {
     label: 'original',
     migrated: true,
   })
@@ -836,7 +836,7 @@ async function deployENS({ web3, accounts, dnssec = false }) {
     newControllerContract,
     'postmigration'
   )
-  nameLogger.record('postmigration.eth', {
+  nameLogger.record('postmigration.vlx', {
     label: 'postmigration',
     migrated: true,
   })
@@ -932,15 +932,15 @@ async function deployENS({ web3, accounts, dnssec = false }) {
   console.log({ sixcharprice, fourcharprice, threecharprice })
 
   await newEnsContract
-    .setResolver(namehash('abittooawesome2.eth'), newResolver._address)
+    .setResolver(namehash('abittooawesome2.vlx'), newResolver._address)
     .send({ from: accounts[0] })
 
   await newResolverContract
-    .setContenthash(namehash('abittooawesome2.eth'), deprecated_contenthash)
+    .setContenthash(namehash('abittooawesome2.vlx'), deprecated_contenthash)
     .send({ from: accounts[0] })
 
     // Disabled for now as configureDomain is throwing errorr
-    // await subdomainRegistrarContract.migrateSubdomain(namehash.hash("ismoney.eth"), sha3("eth")).send({from: accounts[0]})
+    // await subdomainRegistrarContract.migrateSubdomain(namehash.hash("ismoney.vlx"), sha3("vlx")).send({from: accounts[0]})
 
 
   let response = {

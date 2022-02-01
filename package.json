@@ -1,7 +1,7 @@
 {
-  "name": "@ensdomains/mock",
-  "version": "2.1.42",
-  "description": "ENS mock scripts",
+  "name": "@velnsdomains/mock",
+  "version": "2.1.43",
+  "description": "Mock scripts",
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -57,10 +57,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ensdomains/mock.git"
+    "url": "git+https://github.com/velnsdomains/mock.git"
   },
-  "bugs": {
-    "url": "https://github.com/ensdomains/mock/issues"
-  },
-  "homepage": "https://github.com/ensdomains/mock#readme"
+  "homepage": "https://github.com/velnsdomains/mock#readme"
 }
